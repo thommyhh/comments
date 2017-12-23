@@ -28,6 +28,7 @@
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
 
 
@@ -469,8 +470,7 @@ class tx_comments_pi1 extends AbstractPlugin {
 			));
 
 			// Get page browser
-			$cObj = GeneralUtility::makeInstance('tslib_cObj');
-			/* @var $cObj tslib_cObj */
+			$cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
 			$cObj->start(array(), '');
 			$result = $cObj->cObjGetSingle($pageBrowserKind, $pageBrowserConfig);
 		}
