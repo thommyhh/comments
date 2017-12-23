@@ -1,12 +1,25 @@
 <?php
-// $Id$
-if (!defined ('TYPO3_MODE')) die('Access denied.');
 
-$TCA['tx_comments_comments'] = array(
-	'ctrl' => $TCA['tx_comments_comments']['ctrl'],
-	'interface' => Array (
+return [
+    'ctrl' => array (
+		'title' => 'LLL:EXT:comments/locallang_db.xml:tx_comments_comments',
+		'label' => 'content',
+		'tstamp' => 'tstamp',
+		'crdate' => 'crdate',
+		'default_sortby' => ' ORDER BY crdate DESC',
+		'delete' => 'deleted',
+		'enablecolumns' => array (
+			'disabled' => 'hidden',
+		),
+		'iconfile' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('comments').'icon_comments.gif',
+		'typeicon_column' => 'approved',
+		'typeicons' => array(
+			'0' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('comments') . 'icon_comments_not_approved.gif',
+			'1' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('comments') . 'icon_comments.gif',
+		),
+	),
+    'interface' => Array (
 		'showRecordFieldList' => 'content,firstname,lastname,email,location,homepage,remote_addr',
-		'maxDBListItems' => 60,
 	),
 	'columns' => array(
 		'hidden' => Array (
@@ -34,9 +47,11 @@ $TCA['tx_comments_comments'] = array(
 					'edit' => Array(
 						'type' => 'popup',
 						'title' => 'LLL:EXT:comments/locallang_db.xml:tx_comments_comments.external_ref.wizard',
-						'script' => 'wizard_edit.php',
+						'module' => array(
+                                'name' => 'wizard_edit',
+                        ),
 						'popup_onlyOpenIfSelected' => 1,
-						'icon' => 'edit2.gif',
+						'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_edit.gif',
 						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
 					),
 				),
@@ -129,56 +144,7 @@ $TCA['tx_comments_comments'] = array(
 			)
 		)
 	),
-	'types' => array(
+    'types' => array(
 		0 => array('showitem' => 'hidden;;;;1,approved;;;;2-2-2,firstname;;;;3-3-3,lastname,email,homepage,location,content,remote_addr,external_ref;;;;5-5-5,external_prefix'),
 	),
-);
-
-
-$TCA['tx_comments_urllog'] = array(
-	'ctrl' => $TCA['tx_comments_urllog']['ctrl'],
-	'interface' => Array (
-		'showRecordFieldList' => 'external_ref,url',
-		'maxDBListItems' => 60,
-	),
-	'columns' => array(
-		'external_ref' => array(
-			'exclude' => 1,
-			'label' => 'LLL:EXT:comments/locallang_db.xml:tx_comments_comments.external_ref',
-			'config' => array(
-				'type' => 'group',
-				'internal_type' => 'db',
-				'prepand_tname' => true,
-				'allowed' => '*',
-				'minsize' => 1,
-				'maxsize' => 1,
-				'size' => 1,
-				'wizards' => Array(
-					'_PADDING' => 1,
-					'_VERTICAL' => 1,
-					'edit' => Array(
-						'type' => 'popup',
-						'title' => 'LLL:EXT:comments/locallang_db.xml:tx_comments_comments.external_ref.wizard',
-						'script' => 'wizard_edit.php',
-						'popup_onlyOpenIfSelected' => 1,
-						'icon' => 'edit2.gif',
-						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
-					),
-				),
-			),
-		),
-		'url' => array(
-			'exclude' => 1,
-			'label' => 'LLL:EXT:comments/locallang_db.xml:tx_comments_urllog.url',
-			'config' => array(
-				'type' => 'input',
-				'eval' => 'trim,required',
-			),
-		),
-	),
-	'types' => array(
-		0 => array('showitem' => 'external_ref;;;;1,url'),
-	),
-);
-
-?>
+];
