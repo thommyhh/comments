@@ -53,9 +53,8 @@ class tx_comments_ttnews {
 				$commentCount = $this->getNumberOfComments($row['uid'], $pObj);
 				$templateName = $commentCount ? '###TTNEWS_COMMENT_COUNT_SUB###' : '###TTNEWS_COMMENT_NONE_SUB###';
 				if (($template = $this->getTemplate($templateName, $lConf, $pObj))) {
-					$lang = GeneralUtility::makeInstance('language');
+					$lang = $GLOBALS['LANG'];
 					/* @var $lang language */
-					$lang->init($GLOBALS['TSFE']->lang);
 					$markerArray['###TX_COMMENTS_COUNT###'] = $pObj->cObj->substituteMarkerArray(
 						$template, array(
 							'###COMMENTS_COUNT_NUMBER###' => $commentCount,

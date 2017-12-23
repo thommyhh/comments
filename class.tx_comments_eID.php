@@ -27,6 +27,7 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Lang\LanguageService;
 
 
 /**
@@ -41,7 +42,7 @@ class tx_comments_eID {
 	var $command;
 
 	function init() {
-		$GLOBALS['LANG'] = GeneralUtility::makeInstance('language');
+		$GLOBALS['LANG'] = GeneralUtility::makeInstance(LanguageService::class);
 		$GLOBALS['LANG']->init('default');
 		$GLOBALS['LANG']->includeLLFile('EXT:comments/locallang_eID.xml');
 

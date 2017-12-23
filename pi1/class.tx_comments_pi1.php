@@ -25,8 +25,10 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
 
 
 /**
@@ -36,7 +38,7 @@ use TYPO3\CMS\Core\Utility\MathUtility;
  * @package TYPO3
  * @subpackage tx_comments
  */
-class tx_comments_pi1 extends tslib_pibase {
+class tx_comments_pi1 extends AbstractPlugin {
 	// Default plugin variables:
 	var $prefixId = 'tx_comments_pi1';
 	var $scriptRelPath = 'pi1/class.tx_comments_pi1.php';
@@ -66,7 +68,7 @@ class tx_comments_pi1 extends tslib_pibase {
 	 *
 	 * @param	string		$content	Content (unused)
 	 * @param	array		$conf	TS configuration of the extension
-	 * @return	void
+	 * @return	string
 	 */
 	function main($content, $conf) {
 		$this->conf = $conf;
@@ -84,8 +86,6 @@ class tx_comments_pi1 extends tslib_pibase {
 		if (!$this->foreignTableName) {
 			return sprintf($this->pi_getLL('error.undefined.foreign.table'), $this->prefixId, $this->conf['externalPrefix']);
 		}
-
-		$content = '';
 
 		// check if we need to go at all
 		if ($this->checkExternalUid()) {
@@ -151,7 +151,7 @@ class tx_comments_pi1 extends tslib_pibase {
 		if (!isset($GLOBALS['TSFE']->additionalHeaderData[$key])) {
 			$headerParts = $this->cObj->getSubpart($this->templateCode, '###HEADER_ADDITIONS###');
 			if ($headerParts) {
-				$headerParts = $this->cObj->substituteMarker($headerParts, '###SITE_REL_PATH###', t3lib_extMgm::siteRelPath('comments'));
+				$headerParts = $this->cObj->substituteMarker($headerParts, '###SITE_REL_PATH###', ExtensionManagementUtility::siteRelPath('comments'));
 				$GLOBALS['TSFE']->additionalHeaderData[$key] = $headerParts;
 			}
 		}
@@ -325,7 +325,7 @@ class tx_comments_pi1 extends tslib_pibase {
 
 		$subParts = array(
 			'###SINGLE_COMMENT###' => $this->comments_getComments($rows),
-			'###SITE_REL_PATH###' => t3lib_extMgm::siteRelPath('comments'),
+			'###SITE_REL_PATH###' => ExtensionManagementUtility::siteRelPath('comments'),
 		);
 		$markers = array(
 			'###UID###' => $this->externalUid,
@@ -388,7 +388,7 @@ class tx_comments_pi1 extends tslib_pibase {
 				'###HOMEPAGE###' => $this->applyStdWrap(htmlspecialchars($row['homepage']), 'webSite_stdWrap'),
 				'###COMMENT_DATE###' => $this->formatDate($row['crdate']),
 				'###COMMENT_CONTENT###' => $this->applyStdWrap(nl2br($this->createLinks(htmlspecialchars($row['content']))), 'content_stdWrap'),
-				'###SITE_REL_PATH###' => t3lib_extMgm::siteRelPath('comments'),
+				'###SITE_REL_PATH###' => ExtensionManagementUtility::siteRelPath('comments'),
 				'###RATINGS###' => $this->comments_getComments_getRatings($row),
 			);
 			// Call hook for custom markers
@@ -458,7 +458,7 @@ class tx_comments_pi1 extends tslib_pibase {
 		$pageBrowserConfig = $this->conf['pageBrowser.'];
 		if (!$pageBrowserKind || !is_array($pageBrowserConfig) || !$pageBrowserConfig['templateFile']) {
 			$result = $this->pi_getLL('no_page_browser') . '<br />' .
-				'<img src="' . t3lib_extMgm::siteRelPath('comments') .
+				'<img src="' . ExtensionManagementUtility::siteRelPath('comments') .
 					'resources/pagebrowser-correct.png" alt="" ' .
 					'style="border: 1px solid black; margin: 5px 20px;" />';
 		}
@@ -522,7 +522,7 @@ class tx_comments_pi1 extends tslib_pibase {
 			'###REQUIRED_HOMEPAGE###' => in_array('homepage', $requiredFields) ? $requiredMark : '',
 			'###REQUIRED_CONTENT###' => in_array('content', $requiredFields) ? $requiredMark : '',
 
-			'###SITE_REL_PATH###' => t3lib_extMgm::siteRelPath('comments'),
+			'###SITE_REL_PATH###' => ExtensionManagementUtility::siteRelPath('comments'),
 
 			'###TEXT_ADD_COMMENT###' => $this->pi_getLL('pi1_template.add_comment'),
 			'###TEXT_REQUIRED_HINT###' => $this->pi_getLL('pi1_template.required_field'),
@@ -534,9 +534,6 @@ class tx_comments_pi1 extends tslib_pibase {
 			'###TEXT_CONTENT###' => $this->pi_getLL('pi1_template.content'),
 			'###TEXT_SUBMIT###' => $this->pi_getLL('pi1_template.submit'),
 			'###TEXT_RESET###' => $this->pi_getLL('pi1_template.reset'),
-			'###TEXT_LOCATION###' => $this->pi_getLL('pi1_template.location'),
-			'###TEXT_LOCATION###' => $this->pi_getLL('pi1_template.location'),
-			'###TEXT_LOCATION###' => $this->pi_getLL('pi1_template.location'),
 		);
 		// Call hook for custom markers
 		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['comments']['form'])) {
@@ -564,7 +561,7 @@ class tx_comments_pi1 extends tslib_pibase {
 		global $TSFE;
 
 		if ($TSFE->fe_user->user['uid']) {
-			$hasExtendedData = t3lib_extMgm::isLoaded('sr_feuser_register');
+			$hasExtendedData = ExtensionManagementUtility::isLoaded('sr_feuser_register');
 			// Notice: we check for sr_feuser_register and not for the existence of columns
 			// in the record. This is intentional because if sr_feuser_register is removed,
 			// columns will remain in database but may contain outdated values. So we use
@@ -609,26 +606,26 @@ class tx_comments_pi1 extends tslib_pibase {
 	 */
 	function form_getCaptcha() {
 		$captchaType = intval($this->conf['spamProtect.']['useCaptcha']);
-		if ($captchaType == 1 && t3lib_extMgm::isLoaded('captcha')) {
+		if ($captchaType == 1 && ExtensionManagementUtility::isLoaded('captcha')) {
 			$template = $this->cObj->getSubpart($this->templateCode, '###CAPTCHA_SUB###');
 			$code = $this->cObj->substituteMarkerArray($template, array(
-							'###SR_FREECAP_IMAGE###' => '<img src="' . t3lib_extMgm::siteRelPath('captcha') . 'captcha/captcha.php" alt="" />',
+							'###SR_FREECAP_IMAGE###' => '<img src="' . ExtensionManagementUtility::siteRelPath('captcha') . 'captcha/captcha.php" alt="" />',
 							'###SR_FREECAP_CANT_READ###' => '',
 							'###REQUIRED_CAPTCHA###' => $this->cObj->getSubpart($this->templateCode, '###REQUIRED_FIELD###'),
 							'###ERROR_CAPTCHA###' => $this->form_wrapError('captcha'),
-							'###SITE_REL_PATH###' => t3lib_extMgm::siteRelPath('comments'),
+							'###SITE_REL_PATH###' => ExtensionManagementUtility::siteRelPath('comments'),
 							'###TEXT_ENTER_CODE###' => $this->pi_getLL('pi1_template.enter_code'),
 						));
 			return str_replace('<br /><br />', '<br />', $code);
 		}
-		elseif ($captchaType == 2 && t3lib_extMgm::isLoaded('sr_freecap')) {
+		elseif ($captchaType == 2 && ExtensionManagementUtility::isLoaded('sr_freecap')) {
 			$freeCap = GeneralUtility::makeInstance('tx_srfreecap_pi2');
 			/* @var $freeCap tx_srfreecap_pi2 */
 			$template = $this->cObj->getSubpart($this->templateCode, '###CAPTCHA_SUB###');
 			return $this->cObj->substituteMarkerArray($template, array_merge($freeCap->makeCaptcha(), array(
 							'###REQUIRED_CAPTCHA###' => $this->cObj->getSubpart($this->templateCode, '###REQUIRED_FIELD###'),
 							'###ERROR_CAPTCHA###' => $this->form_wrapError('captcha'),
-							'###SITE_REL_PATH###' => t3lib_extMgm::siteRelPath('comments'),
+							'###SITE_REL_PATH###' => ExtensionManagementUtility::siteRelPath('comments'),
 							'###TEXT_ENTER_CODE###' => $this->pi_getLL('pi1_template.enter_code'),
 						)));
 		}
@@ -813,7 +810,7 @@ class tx_comments_pi1 extends tslib_pibase {
 			$this->formTopMessage = $this->cObj->substituteMarkerArray(
 				$this->cObj->getSubpart($this->templateCode, '###FORM_TOP_MESSAGE###'), array(
 					'###MESSAGE###' => $this->formTopMessage,
-					'###SITE_REL_PATH###' => t3lib_extMgm::siteRelPath('comments')
+					'###SITE_REL_PATH###' => ExtensionManagementUtility::siteRelPath('comments')
 				)
 			);
 		}
@@ -889,14 +886,14 @@ class tx_comments_pi1 extends tslib_pibase {
 
 		// Check spam: captcha
 		$captchaType = intval($this->conf['spamProtect.']['useCaptcha']);
-		if ($captchaType == 1 && t3lib_extMgm::isLoaded('captcha')) {
+		if ($captchaType == 1 && ExtensionManagementUtility::isLoaded('captcha')) {
 			$captchaStr = $_SESSION['tx_captcha_string'];
 			$_SESSION['tx_captcha_string'] = '';
 			if (!$captchaStr || $this->piVars['captcha'] !== $captchaStr) {
 				$this->formValidationErrors['captcha'] = $this->pi_getLL('error.wrong.captcha');
 			}
 		}
-		elseif ($captchaType == 2 && t3lib_extMgm::isLoaded('sr_freecap')) {
+		elseif ($captchaType == 2 && ExtensionManagementUtility::isLoaded('sr_freecap')) {
 			$freeCap = GeneralUtility::makeInstance('tx_srfreecap_pi2');
 			/* @var $freeCap tx_srfreecap_pi2 */
 			if (!$freeCap->checkWord($this->piVars['captcha'])) {
@@ -933,7 +930,7 @@ class tx_comments_pi1 extends tslib_pibase {
 				'###APPROVE_LINK###' => GeneralUtility::locationHeaderUrl('index.php?eID=comments&uid=' . $uid . '&chk=' . $check . '&cmd=approve'),
 				'###DELETE_LINK###' => GeneralUtility::locationHeaderUrl('index.php?eID=comments&uid=' . $uid . '&chk=' . $check . '&cmd=delete'),
 				'###KILL_LINK###' => GeneralUtility::locationHeaderUrl('index.php?eID=comments&uid=' . $uid . '&chk=' . $check . '&cmd=kill'),
-				'###SITE_REL_PATH###' => t3lib_extMgm::siteRelPath('comments'),
+				'###SITE_REL_PATH###' => ExtensionManagementUtility::siteRelPath('comments'),
 			);
 			// Call hook for custom markers
 			if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['comments']['sendNotificationMail'])) {
@@ -951,7 +948,7 @@ class tx_comments_pi1 extends tslib_pibase {
 				}
 			}
 			$content = $this->cObj->substituteMarkerArray($template, $markers);
-			GeneralUtility::plainMailEncoded($toEmail, $this->pi_getLL('email.subject'), $content, 'From: ' . $this->conf['spamProtect.']['fromEmail']);
+//			GeneralUtility::plainMailEncoded($toEmail, $this->pi_getLL('email.subject'), $content, 'From: ' . $this->conf['spamProtect.']['fromEmail']);
 		}
 	}
 
@@ -1014,7 +1011,7 @@ class tx_comments_pi1 extends tslib_pibase {
 	/**
 	 * Produces "commenting closed" message.
 	 *
-	 * @return	void
+	 * @return	string
 	 */
 	function commentingClosed() {
 		$template = $this->cObj->getSubpart($this->templateCode, '###COMMENTING_CLOSED###');
@@ -1184,5 +1181,3 @@ class tx_comments_pi1 extends tslib_pibase {
 		return $content;
 	}
 }
-
-?>
