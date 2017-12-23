@@ -15,13 +15,11 @@ $EM_CONF[$_EXTKEY] = array(
 	'description' => 'Adds commenting functionality for pages or virtually any record visible in frontend.',
 	'category' => 'plugin',
 	'shy' => 0,
-	'version' => '1.7.1',
+	'version' => '1.8.0-dev',
 	'dependencies' => '',
 	'conflicts' => '',
 	'priority' => '',
 	'loadOrder' => '',
-	'TYPO3_version' => '6.1.0-',
-	'PHP_version' => '5.3.0-',
 	'module' => '',
 	'state' => 'stable',
 	'uploadfolder' => 0,
@@ -34,6 +32,17 @@ $EM_CONF[$_EXTKEY] = array(
 	'author_company' => '',
 	'CGLcompliance' => '',
 	'CGLcompliance_note' => '',
+    'constraints' => array(
+		'depends' => array(
+			'typo3' => '7.6.0-7.99.99',
+		),
+		'conflicts' => array(
+		),
+		'suggests' => array(
+		),
+	),
+	'suggests' => array(
+	),
 );
 
 ?>

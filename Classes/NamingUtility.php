@@ -1,5 +1,5 @@
 <?php
-namespace Tx\Comments;
+namespace WEBcoast\Comments;
 
 /***************************************************************
  *  Copyright notice

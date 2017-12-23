@@ -1,0 +1,30 @@
+{
+	"name": "webcoast/comments",
+	"description": "A modern, flexible extension for creating and managing urls and redirects in the TYPO3 CMS.",
+	"autoload": {
+		"psr-4": {
+			"WEBcoast\\Comments\\": "Classes/"
+		},
+		"classmap": [
+			"./",
+			"./pi1/"
+		]
+	},
+	"type": "typo3-cms-extension",
+    "license": "GPL-3.0",
+	"authors": [
+		{
+			"name": "Thorben Nissen",
+			"email": "thorben@work.de"
+		}
+	],
+	"extra": {
+		"branch-alias": {
+			"dev-master": "1.8.x-dev"
+		}
+	},
+	"require": {
+		"typo3/cms": "^7.6.0"
+	},
+	"minimum-stability": "dev"
+}

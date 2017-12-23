@@ -1,5 +1,5 @@
 <?php
-namespace Tx\Comments\ViewHelpers;
+namespace WEBcoast\Comments\ViewHelpers;
 
 /***************************************************************
  *  Copyright notice
