@@ -1,0 +1,329 @@
+2013-07-12  Ingo Renner  <ingo@typo3.org>
+
+	* Release of version 1.7.0
+
+2013-04-17  Ingo Renner  <ingo@typo3.org>
+
+	* Fixed bug #47303: Error with TYPO3 CMS 6.1
+
+2013-01-17  Ingo Renner  <ingo@typo3.org>
+
+	* Fixed wrong path for pi1/locallang.xml
+
+2013-01-16  Ingo Renner  <ingo@typo3.org>
+
+	* Fixed bug #44522: Fatal Error caused by wrong constant
+	* Fixed an issue possibly leading to a fatal error caused by wrong scope of method call
+
+2013-01-06  Ingo Renner  <ingo@typo3.org>v
+
+	* Increase version number to 1.7.0-dev
+
+2013-01-05  Ingo Renner  <ingo@typo3.org>
+
+	* Release of version 1.6.0
+
+	* Fixed calls to missing/deprecated functions
+	* Fixed issue #39001: latest "pagebrowse" ext do not work with comments
+	* Added feature #38635: Marker for comment count, credits Sebastian Schawohl
+	* Fixed issue #31315: GET parameter id is added twice to redirection URL, credits Christian Futterlieb
+
+2011-08-09  Ingo Renner  <ingo@typo3.org>
+
+	* Fixed missing image for missing pagebrowser configuration
+
+2011-08-04  Ingo Renner  <ingo@typo3.org>
+
+	* Added feature #28180: Add single view to tt_news hook (credits Tymoteusz Motylewski)
+	* Fixed issue #28169: Comments sorting is configured in a wrong way (credits Marcus Krause)
+	* Fixed issue #27307: TCA fields should be excludable (credits Søren Malling)
+	* Fixed issue #27306: Flexform fields should be excludable (credits Søren Malling)
+	* Fixed issue #26198: Link to css and js files broken
+
+2011-04-20  Ingo Renner  <ingo@typo3.org>
+
+	* Fixed issue #26140: wrong path to emailTemplate
+
+2011-04-19  Ingo Renner  <ingo@typo3.org>
+
+	* Release of version 1.5.4
+
+2011-01-09  Steffen Gebert  <steffen@steffen-gebert.de>
+
+	* Fixed bug #16843: Cache clearing breaks sites with TYPO3 4.5
+
+2010-01-13  Michiel Roos	<michiel@netcreators.com>
+
+	* Fix #8619: XHTML Strict tweaks (Thanks to Michiel Roos)
+	* Fix: Captcha fix, did not work to previous renaming of name attribute
+	* Fix #11312: HOOKS: The function "checkCustomFunctionCodes()" needs one argument! (Thanks to Simon Schick)
+	* Change #10279: Pass uid of new comment to sendNotificationMail hook (Thanks to Mathias Brodala)
+	* Change #9668: Modify template in hook function (Thanks to Peter Schuster)
+	* Fix #9933: Comments are stored in PID 0 if plugin.tx_comments_pi1.storagePid ist empty / not set in 1.5.1 (Thanks to Gregor Hermens)
+
+2010-01-12  Michiel Roos	<michiel@netcreators.com>
+
+	* Fix #11754: Triggering prefix help should say "pages" and not "page" (Thanks to Stephen Bungert)
+	* Fix #11737: Set the default key to be 'pages' instead of 'tt_news'. (Thanks to Steffen Gebert)
+
+2009-01-19  Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Continued implementation of form view
+
+2009-01-14  Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Added base view and controller classes
+	* Created view for errors
+	* Implementation of the form view
+
+2009-01-13  Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Implementation of FE controller: created base functions and configuration processing
+
+2009-01-12  Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Merge with 1_x_x branch
+	* Added base model and implemented "save" method
+	* Added base data store and comments data store
+
+2009-01-07  Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Released version 1.5.2
+
+2009-01-05  Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Template is now valid "XMTML 1.0 strict"
+
+2008-12-16  Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Changed cache clearing in eID to be compatible with TYPO3 4.3
+	* Removed old styles
+	* Changed default order of codes to show form after the comments
+	* Added clearCache to eID links, reordered check for storagePid
+
+2008-12-13  Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Removed non-standard autocomplete attribute from template
+
+2008-11-28  Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Fixed bug #9760: Multiple pages with comment form - one storage folder
+	* Fixed bug #9635: ###UID### is not replaced in tx_comments template
+	* Fixed bug #9456: https Links won'be detected
+	* Released version 1.5.1
+
+2008-11-19	Dmitry Dulepov	<dmitry@typo3.org>
+
+	* Better message about page browser missing
+
+2008-11-04	Dmitry Dulepov	<dmitry@typo3.org>
+
+	* Initial work on comment model object
+	* Add directories for MVC
+	* Rename res/ directory and update all references
+	* Move pi1/static/ to static/
+	! comments 2.0 development starts
+
+2008-09-02	Dmitry Dulepov	<dmitry@typo3.org>
+
+	* Changed minimum PHP version to 5.2.0 because Debian still does not have 5.2.1
+
+2008-08-08	Dmitry Dulepov	<dmitry@typo3.org>
+
+	* Fixed bug #9054: remove email from default required fields
+	* Fixed bug #8145: wrong links in notification mail if typo3 runs in a subdir of domain
+	* Fixed bug #7926: small template error
+	* Fixed bug #7927: please add an additional hook to make my email notification extension working
+
+2008-07-24	Dmitry Dulepov	<dmitry@typo3.org>
+
+	* Fixed error in default template (###NO_COMMENTS### in the wrong place)
+
+2008-07-23	Dmitry Dulepov	<dmitry@typo3.org>
+
+	* Updated function index in files
+	* Released version 1.4.2
+	* Fixed error with subparts
+	* Released version 1.4.3
+
+2008-06-03	Dmitry Dulepov	<dmitry@typo3.org>
+
+	* Fixed: wrong number of comments in tt_news (includes non-approved comments)
+
+2008-05-14	Dmitry Dulepov	<dmitry@typo3.org>
+
+	* Fixed: hidden column defined for tx_comments_urllog but does not exist in the database
+
+2008-05-05	Dmitry Dulepov	<dmitry@typo3.org>
+
+	* Fixed: strftime was never be used
+
+2008-03-13	Dmitry Dulepov	<dmitry@typo3.org>
+
+	* Fixed bug #6999: Add sorting for comments
+	* Fixed bug #7645: after entering bad code from captcha "content" is not loaded again into textarea
+	* Fixed bug #7849: Grammar error in error.no.ts.template label
+	* Fixed bug #7491: Typos in pi1/locallang_csh.xml
+	* Fixed bug #7578: Translation not possible
+	* Fixed bug #7680: ###TEXT_ENTER_CODE### not rendered with sr_freecap
+	* Fixed bug #7675: Hook-Request: additional fields in record before save/processing
+
+2008-02-25 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Fixed bug: tt_news marker cannot be localized
+
+2008-02-21 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Added URL log for future "List" feature
+	* Changed storagePid to be a list of values (for "List" feature)
+
+2008-02-20 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Fixed bug #7593: Firstname replaced by Lastname
+	* Fixed bug #7574: Pagebrowser ###LINK_LAST### not rendered
+
+2008-02-14 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Added lots of hooks
+	* Released version 1.3.0
+
+2008-02-06 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Added stdWrap properties for comment entries
+
+2008-02-06 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Added posibility to output only number of votes (without text) in tt_news marker
+	* Updated function index on several files
+	* Updated documentation
+	* Fixed bug #7102: Hyperlinks in comments text
+	* Fixed bug #7144: Day of week does not come out when server locale differs from website language
+	* Fixed bug #7154: Translation strings cannot be implemented using TS because of 'dots' in the label index
+	* Fixed bug #7156: Flexform value for 'comments per page' overrides value in TS setup
+	* Fixed bug #7157: Flexform value for 'templateFile' overrides value in TS setup
+	* Released version 1.2.0
+
+2008-02-05 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Added ratings for comments (through "ratings" extension)
+	* Release of version 1.1.0
+
+2008-01-28 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Finished prefill form with FE user data
+
+2008-01-25 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Fixed bug #7104: impossible to select template from flexform
+	* New feature (untested!): prefill form with FE user data
+
+2008-01-24 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Added hook for tt_news to display number of comments in List, Latest and Search modes
+	* Updated manual
+
+2008-01-23 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Removed duplicate entry for templateFile from TS setup
+	* Disabled separate languages for flexforms
+
+2008-01-07 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Labels moved from pi1_template.html to language file
+	* New TYPO3 logo in the manual
+	* Release of version 1.0.7
+	* Added one forgotten label
+	* Release of version 1.0.8
+
+2007-12-20 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Added CSH for flexforms (requires support from core, feature request #7028)
+
+2007-12-19 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Committed improved icon for closed comments (thanks to Ben)
+
+2007-12-06 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Fixed bug: t3lib_BEfunc is not defined sometimes when using refindex
+
+2007-12-06 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Fixed bug: Fatal error: Cannot redeclare tx_comments_mustupdatetempflexfile() in typo3conf/temp_CACHED_ps1660_ext_tables.php on line 2924
+
+2007-12-05 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Localized requiredFields_errorWrap
+	* Removed "align" attribute from the template
+
+2007-12-04 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Added date formatting TypoScript setting
+	* Updated documentation: added information about TypoScript template
+	* Added check for correct inclusion of extension's TypoScript template to main TypoScript template
+
+2007-11-26 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Added length to mysql index because some mysql versions refused to use TEXT column without length
+	* Changed default sorting direction to show last comments first
+	* Added wizard to edit associated entry inside comment record
+
+2007-11-18 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Added plugin to "New content element" wizard
+	* Added manual (needs better screenshots)
+
+2007-11-16 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Enable commenting for pages
+
+2007-11-15 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Changed setup to enable other extensions to add prefixes
+	* Added hook to disable comments for individual items
+	* Changed extension's category from "Frontend" to "Frontend plugin"
+	* Adjusted page cache expiration if commenting is going to be disabled in future
+
+2007-11-07 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Made a workaround for pre-4.2 bug where TYPO3 does not correctly handle flexform sheet references (see http://bugs.typo3.org/view.php?id=6581)
+	* Removed required attribute for "Close commnting after:" in Advanced tab
+	* Use current page if no storage page set
+	* Changed prefix in forms and styles from nccomments to comments
+
+2007-10-24 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Added commenting closing
+	* Added many new options in flexform
+
+2007-10-23 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Changed extkey from nc_comments to comments
+
+2007-10-13 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Added default captcha support and selection for captcha extension to use
+	* Added notification feature
+	* Disabled autocomplete for captcha field
+
+2007-10-12 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Moved commenting functionality to separate extension
+
+2007-10-04 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Added spam and double post checks
+	* Added hook to remove comments if associated record is removed
+
+2007-10-03 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* First draft implementation of commenting system
+
+2007-09-30 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Added tables for comments
+	* Fix: $GLOBALS['LANG'] is not defined when no BE user
+
+2007-09-30 Dmitry Dulepov  <dmitry@typo3.org>
+
+	* Implemented relation between news and products
