@@ -25,6 +25,8 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+use TYPO3\CMS\Core\Database\ReferenceIndex;
+use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
@@ -708,8 +710,7 @@ class tx_comments_pi1 extends AbstractPlugin {
 					$newUid = $GLOBALS['TYPO3_DB']->sql_insert_id();
 
 					// Update reference index. This will show in theList view that someone refers to external record.
-					$refindex = GeneralUtility::makeInstance('t3lib_refindex');
-					/* @var $refindex t3lib_refindex */
+					$refindex = GeneralUtility::makeInstance(ReferenceIndex::class);
 					$refindex->updateRefIndexTable('tx_comments_comments', $newUid);
 
 					// Insert URL (if exists)
@@ -948,7 +949,12 @@ class tx_comments_pi1 extends AbstractPlugin {
 				}
 			}
 			$content = $this->cObj->substituteMarkerArray($template, $markers);
-//			GeneralUtility::plainMailEncoded($toEmail, $this->pi_getLL('email.subject'), $content, 'From: ' . $this->conf['spamProtect.']['fromEmail']);
+			$message = new MailMessage();
+			$message->setTo($toEmail);
+			$message->setSubject($this->pi_getLL('email.subject'));
+			$message->addPart($content, 'text/plain', 'utf-8');
+			$message->setFrom($this->conf['spamProtect.']['fromEmail']);
+			$message->send();
 		}
 	}
 
