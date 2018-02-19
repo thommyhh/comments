@@ -23,6 +23,7 @@
 ***************************************************************/
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Lang\LanguageService;
 
 
 /**
@@ -53,7 +54,7 @@ class tx_comments_ttnews {
 				$commentCount = $this->getNumberOfComments($row['uid'], $pObj);
 				$templateName = $commentCount ? '###TTNEWS_COMMENT_COUNT_SUB###' : '###TTNEWS_COMMENT_NONE_SUB###';
 				if (($template = $this->getTemplate($templateName, $lConf, $pObj))) {
-					$lang = $GLOBALS['LANG'];
+					$lang = GeneralUtility::makeInstance(LanguageService::class);
 					/* @var $lang language */
 					$markerArray['###TX_COMMENTS_COUNT###'] = $pObj->cObj->substituteMarkerArray(
 						$template, array(
