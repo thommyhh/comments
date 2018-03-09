@@ -25,8 +25,10 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Frontend\Utility\EidUtility;
 use TYPO3\CMS\Lang\LanguageService;
 
 
@@ -42,11 +44,8 @@ class tx_comments_eID {
 	var $command;
 
 	function init() {
-		$GLOBALS['LANG'] = GeneralUtility::makeInstance(LanguageService::class);
-		$GLOBALS['LANG']->init('default');
+	    EidUtility::initLanguage();
 		$GLOBALS['LANG']->includeLLFile('EXT:comments/locallang_eID.xml');
-
-		tslib_eidtools::connectDB();
 
 		// Sanity check
 		$this->uid = GeneralUtility::_GET('uid');
@@ -104,8 +103,7 @@ class tx_comments_eID {
 		}
 		// Clear cache
 		$pidList = GeneralUtility::intExplode(',', GeneralUtility::_GET('clearCache'));
-		$tce = GeneralUtility::makeInstance('t3lib_TCEmain');
-		/* @var $tce t3lib_TCEmain */
+		$tce = GeneralUtility::makeInstance(DataHandler::class);
 		foreach ($pidList as $pid) {
 			if ($pid != 0) {
 				$tce->clear_cacheCmd($pid);
@@ -118,5 +116,3 @@ class tx_comments_eID {
 $SOBE = GeneralUtility::makeInstance('tx_comments_eID');
 $SOBE->init();
 $SOBE->main();
-
-?>
