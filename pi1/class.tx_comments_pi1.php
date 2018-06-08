@@ -165,7 +165,7 @@ class tx_comments_pi1 extends AbstractPlugin {
 					$this->cObj->enableFields('tx_comments_comments');
 		$this->where = 'approved=1 AND ' . $this->where_dpck;
 
-		if ($this->conf['advanced.']['enableRatings'] && t3lib_extMgm::isLoaded('ratings')) {
+		if ($this->conf['advanced.']['enableRatings'] && ExtensionManagementUtility::isLoaded('ratings')) {
 			$this->ratingsApiObj = GeneralUtility::makeInstance('tx_ratings_api');
 		}
 	}
@@ -1023,7 +1023,7 @@ class tx_comments_pi1 extends AbstractPlugin {
 		$template = $this->cObj->getSubpart($this->templateCode, '###COMMENTING_CLOSED###');
 		return $this->cObj->substituteMarkerArray($template, array(
 						'###MESSAGE###' => $this->pi_getLL('commenting.closed'),
-						'###SITE_REL_PATH###' => t3lib_extMgm::siteRelPath('comments')
+						'###SITE_REL_PATH###' => ExtensionManagementUtility::siteRelPath('comments')
 					)
 				);
 	}

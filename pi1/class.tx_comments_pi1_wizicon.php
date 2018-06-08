@@ -22,6 +22,8 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 
 /**
  * Class that adds the wizard icon.
@@ -43,12 +45,12 @@ class tx_comments_pi1_wizicon {
 
 		$LL = $this->includeLocalLang();
 
-		$wizardItems['plugins_tx_comments_pi1'] = array(
-			'icon'=>t3lib_extMgm::extRelPath('comments').'pi1/ce_wiz.gif',
+		$wizardItems['plugins_tx_comments_pi1'] = [
+			'icon'=> ExtensionManagementUtility::extRelPath('comments').'pi1/ce_wiz.gif',
 			'title'=>$LANG->getLLL('tt_content.list_type_pi1', $LL),
 			'description'=>$LANG->getLLL('pi1_plus_wiz_description',$LL),
 			'params'=>'&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=comments_pi1'
-		);
+        ];
 
 		return $wizardItems;
 	}
@@ -59,7 +61,7 @@ class tx_comments_pi1_wizicon {
 	 * @return	array		The array with language labels
 	 */
 	function includeLocalLang()	{
-		$llFile = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('comments') . 'pi1/locallang.xml';
+		$llFile = ExtensionManagementUtility::extPath('comments') . 'pi1/locallang.xml';
 
 		$localLanguageParser = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Localization\\Parser\\LocallangXmlParser');
 		$LOCAL_LANG = $localLanguageParser->getParsedData($llFile, $GLOBALS['LANG']->lang);
