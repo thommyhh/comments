@@ -20,11 +20,11 @@
 	],
 	"extra": {
 		"branch-alias": {
-			"dev-master": "1.8.x-dev"
+			"dev-master": "2.0.x-dev"
 		}
 	},
 	"require": {
-		"typo3/cms": "^7.6.0"
+		"typo3/cms": "^8.7.0 || ^9.5.0"
 	},
 	"minimum-stability": "dev"
 }
