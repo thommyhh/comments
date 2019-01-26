@@ -67,5 +67,24 @@
 			<label index="text_no_comments">No comments</label>
 			<label index="no_page_browser">&lt;strong&gt;Warning:&lt;/strong&gt; Page browser configuration is absent. Please, make sure that you added TS template from the 'pagebrowse' extension &lt;strong&gt;before&lt;/strong&gt; TS template from the 'comments' extension. See the example below.</label>
 		</languageKey>
+
+		<languageKey index="de" type="array">
+			<label index="pi1_template.first">Erste</label>
+			<label index="pi1_template.previous">Vorherige</label>
+			<label index="pi1_template.next">Nächste</label>
+			<label index="pi1_template.last">Letzte</label>
+			<label index="pi1_template.add_comment">Kommentar hinzufügen</label>
+			<label index="pi1_template.required_field">- Pflichtfeld</label>
+			<label index="pi1_template.first_name">Vorname:</label>
+			<label index="pi1_template.last_name">Nachname:</label>
+			<label index="pi1_template.email">E-Mail-Adresse:</label>
+			<label index="pi1_template.web_site">Website:</label>
+			<label index="pi1_template.location">Ort:</label>
+			<label index="pi1_template.submit">Absenden</label>
+			<label index="pi1_template.reset">Zurück setzen</label>
+			<label index="pi1_template.enter_code">Code eingeben:</label>
+			<label index="pi1_template.content">Text:</label>
+			<label index="text_no_comments">Keine Kommentare</label>
+		</languageKey>
 	</data>
 </T3locallang>

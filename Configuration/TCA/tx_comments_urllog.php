@@ -9,7 +9,7 @@ return [
         'sortby' => 'external_ref',
         'delete' => 'deleted',
         'hideTable' => true,
-        'iconfile' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('comments') . 'icon_urllog.gif',
+        'iconfile' => 'EXT:comments/icon_urllog.gif',
     ),
     'interface' => Array(
         'showRecordFieldList' => 'external_ref,url',

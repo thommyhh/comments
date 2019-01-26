@@ -11,11 +11,11 @@ return [
 		'enablecolumns' => array (
 			'disabled' => 'hidden',
 		),
-		'iconfile' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('comments').'icon_comments.gif',
+		'iconfile' => 'EXT:comments/icon_comments.gif',
 		'typeicon_column' => 'approved',
 		'typeicons' => array(
-			'0' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('comments') . 'icon_comments_not_approved.gif',
-			'1' => TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('comments') . 'icon_comments.gif',
+			'0' => 'EXT:comments/icon_comments_not_approved.gif',
+			'1' => 'EXT:comments/icon_comments.gif',
 		),
 	),
     'interface' => Array (

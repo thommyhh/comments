@@ -46,7 +46,7 @@ class tx_comments_pi1 extends AbstractPlugin {
 	var $prefixId = 'tx_comments_pi1';
 	var $scriptRelPath = 'pi1/class.tx_comments_pi1.php';
 	var $extKey = 'comments';
-	var $pi_checkCHash = true;				// Required for proper caching! See in the typo3/sysext/cms/tslib/class.tslib_pibase.php
+//	var $pi_checkCHash = true;				// Required for proper caching! See in the typo3/sysext/cms/tslib/class.tslib_pibase.php
 
 //	var $conf;								// Plugin configuration (merged with flexform)
 	var $externalUid;						// UID of external record
@@ -149,12 +149,12 @@ class tx_comments_pi1 extends AbstractPlugin {
 			$this->showUidParam = '';
 		}
 
-		$this->templateCode = $this->cObj->fileResource($this->conf['templateFile']);
+		$this->templateCode = file_get_contents(GeneralUtility::getFileAbsFileName($this->conf['templateFile']));
 		$key = 'EXT:comments_' . md5($this->templateCode);
 		if (!isset($GLOBALS['TSFE']->additionalHeaderData[$key])) {
-			$headerParts = $this->cObj->getSubpart($this->templateCode, '###HEADER_ADDITIONS###');
+			$headerParts = $this->templateService->getSubpart($this->templateCode, '###HEADER_ADDITIONS###');
 			if ($headerParts) {
-				$headerParts = $this->cObj->substituteMarker($headerParts, '###SITE_REL_PATH###', ExtensionManagementUtility::siteRelPath('comments'));
+				$headerParts = $this->templateService->substituteMarker($headerParts, '###SITE_REL_PATH###', ExtensionManagementUtility::siteRelPath('comments'));
 				$GLOBALS['TSFE']->additionalHeaderData[$key] = $headerParts;
 			}
 		}
@@ -336,9 +336,9 @@ class tx_comments_pi1 extends AbstractPlugin {
 		);
 
 		// Fetch template
-		$template = $this->cObj->getSubpart($this->templateCode, '###COMMENT_LIST###');
+		$template = $this->templateService->getSubpart($this->templateCode, '###COMMENT_LIST###');
 
-		if ($this->cObj->getSubpart($template, '###PAGE_BROWSER###') != '') {
+		if ($this->templateService->getSubpart($template, '###PAGE_BROWSER###') != '') {
 			// Old template have page browser as subpart. We replace that completely
 			$subParts['###PAGE_BROWSER###'] = $this->comments_getPageBrowser($rpp);
 		}
@@ -374,13 +374,13 @@ class tx_comments_pi1 extends AbstractPlugin {
 	 */
 	function comments_getComments($rows) {
 		if (count($rows) == 0) {
-			$template = $this->cObj->getSubpart($this->templateCode, '###NO_COMMENTS###');
+			$template = $this->templateService->getSubpart($this->templateCode, '###NO_COMMENTS###');
 			if ($template) {
-				return $this->cObj->substituteMarker($template, '###TEXT_NO_COMMENTS###', $this->pi_getLL('text_no_comments'));
+				return $this->templateService->substituteMarker($template, '###TEXT_NO_COMMENTS###', $this->pi_getLL('text_no_comments'));
 			}
 		}
 		$entries = array(); $alt = 1;
-		$template = $this->cObj->getSubpart($this->templateCode, '###SINGLE_COMMENT###');
+		$template = $this->templateService->getSubpart($this->templateCode, '###SINGLE_COMMENT###');
 		foreach ($rows as $row) {
 			$markerArray = array(
 				'###ALTERNATE###' => '-' . ($alt + 1),
@@ -408,7 +408,7 @@ class tx_comments_pi1 extends AbstractPlugin {
 					}
 				}
 			}
-			$entries[] = $this->cObj->substituteMarkerArray($template, $markerArray);
+			$entries[] = $this->templateService->substituteMarkerArray($template, $markerArray);
 			$alt = ($alt + 1) % 2;
 		}
 
@@ -485,10 +485,10 @@ class tx_comments_pi1 extends AbstractPlugin {
 	 * @return	string		Formatted form
 	 */
 	function form() {
-		$template = $this->cObj->getSubpart($this->templateCode, '###COMMENT_FORM###');
+		$template = $this->templateService->getSubpart($this->templateCode, '###COMMENT_FORM###');
 		$actionLink = GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL');
 		$requiredFields = GeneralUtility::trimExplode(',', $this->conf['requiredFields'], true);
-		$requiredMark = $this->cObj->getSubpart($this->templateCode, '##REQUIRED_FIELD###');
+		$requiredMark = $this->templateService->getSubpart($this->templateCode, '##REQUIRED_FIELD###');
 		$content = (count($this->formValidationErrors) == 0 ? '' : $this->piVars['content']);
 		if ($this->conf['advanced.']['preFillFormFromFeUser']) {
 			$this->form_updatePostVarsWithFeUserData();
@@ -550,7 +550,7 @@ class tx_comments_pi1 extends AbstractPlugin {
 				}
 			}
 		}
-		return $this->cObj->substituteMarkerArray($template, $markers);
+		return $this->templateService->substituteMarkerArray($template, $markers);
 	}
 
 
@@ -609,11 +609,11 @@ class tx_comments_pi1 extends AbstractPlugin {
 	function form_getCaptcha() {
 		$captchaType = intval($this->conf['spamProtect.']['useCaptcha']);
 		if ($captchaType == 1 && ExtensionManagementUtility::isLoaded('captcha')) {
-			$template = $this->cObj->getSubpart($this->templateCode, '###CAPTCHA_SUB###');
-			$code = $this->cObj->substituteMarkerArray($template, array(
+			$template = $this->templateService->getSubpart($this->templateCode, '###CAPTCHA_SUB###');
+			$code = $this->templateService->substituteMarkerArray($template, array(
 							'###SR_FREECAP_IMAGE###' => '<img src="' . ExtensionManagementUtility::siteRelPath('captcha') . 'captcha/captcha.php" alt="" />',
 							'###SR_FREECAP_CANT_READ###' => '',
-							'###REQUIRED_CAPTCHA###' => $this->cObj->getSubpart($this->templateCode, '###REQUIRED_FIELD###'),
+							'###REQUIRED_CAPTCHA###' => $this->templateService->getSubpart($this->templateCode, '###REQUIRED_FIELD###'),
 							'###ERROR_CAPTCHA###' => $this->form_wrapError('captcha'),
 							'###SITE_REL_PATH###' => ExtensionManagementUtility::siteRelPath('comments'),
 							'###TEXT_ENTER_CODE###' => $this->pi_getLL('pi1_template.enter_code'),
@@ -623,9 +623,9 @@ class tx_comments_pi1 extends AbstractPlugin {
 		elseif ($captchaType == 2 && ExtensionManagementUtility::isLoaded('sr_freecap')) {
 			$freeCap = GeneralUtility::makeInstance('tx_srfreecap_pi2');
 			/* @var $freeCap tx_srfreecap_pi2 */
-			$template = $this->cObj->getSubpart($this->templateCode, '###CAPTCHA_SUB###');
-			return $this->cObj->substituteMarkerArray($template, array_merge($freeCap->makeCaptcha(), array(
-							'###REQUIRED_CAPTCHA###' => $this->cObj->getSubpart($this->templateCode, '###REQUIRED_FIELD###'),
+			$template = $this->templateService->getSubpart($this->templateCode, '###CAPTCHA_SUB###');
+			return $this->templateService->substituteMarkerArray($template, array_merge($freeCap->makeCaptcha(), array(
+							'###REQUIRED_CAPTCHA###' => $this->templateService->getSubpart($this->templateCode, '###REQUIRED_FIELD###'),
 							'###ERROR_CAPTCHA###' => $this->form_wrapError('captcha'),
 							'###SITE_REL_PATH###' => ExtensionManagementUtility::siteRelPath('comments'),
 							'###TEXT_ENTER_CODE###' => $this->pi_getLL('pi1_template.enter_code'),
@@ -808,8 +808,8 @@ class tx_comments_pi1 extends AbstractPlugin {
 			}
 		}
 		if ($this->formTopMessage) {
-			$this->formTopMessage = $this->cObj->substituteMarkerArray(
-				$this->cObj->getSubpart($this->templateCode, '###FORM_TOP_MESSAGE###'), array(
+			$this->formTopMessage = $this->templateService->substituteMarkerArray(
+				$this->templateService->getSubpart($this->templateCode, '###FORM_TOP_MESSAGE###'), array(
 					'###MESSAGE###' => $this->formTopMessage,
 					'###SITE_REL_PATH###' => ExtensionManagementUtility::siteRelPath('comments')
 				)
@@ -916,7 +916,7 @@ class tx_comments_pi1 extends AbstractPlugin {
 		$toEmail = $this->conf['spamProtect.']['notificationEmail'];
 		$fromEmail = $this->conf['spamProtect.']['fromEmail'];
 		if (filter_var($toEmail, FILTER_VALIDATE_EMAIL) && filter_var($fromEmail, FILTER_VALIDATE_EMAIL)) {
-			$template = $this->cObj->fileResource($this->conf['spamProtect.']['emailTemplate']);
+			$template = file_get_contents(GeneralUtility::getFileAbsFileName($this->conf['spamProtect.']['emailTemplate']));
 			$check = md5($uid . $GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey']);
 			$markers = array(
 				'###URL###' => GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL'),
@@ -948,7 +948,7 @@ class tx_comments_pi1 extends AbstractPlugin {
 					}
 				}
 			}
-			$content = $this->cObj->substituteMarkerArray($template, $markers);
+			$content = $this->templateService->substituteMarkerArray($template, $markers);
 			$message = new MailMessage();
 			$message->setTo($toEmail);
 			$message->setSubject($this->pi_getLL('email.subject'));
@@ -1020,8 +1020,8 @@ class tx_comments_pi1 extends AbstractPlugin {
 	 * @return	string
 	 */
 	function commentingClosed() {
-		$template = $this->cObj->getSubpart($this->templateCode, '###COMMENTING_CLOSED###');
-		return $this->cObj->substituteMarkerArray($template, array(
+		$template = $this->templateService->getSubpart($this->templateCode, '###COMMENTING_CLOSED###');
+		return $this->templateService->substituteMarkerArray($template, array(
 						'###MESSAGE###' => $this->pi_getLL('commenting.closed'),
 						'###SITE_REL_PATH###' => ExtensionManagementUtility::siteRelPath('comments')
 					)
@@ -1072,7 +1072,7 @@ class tx_comments_pi1 extends AbstractPlugin {
 	 * @return	void
 	 */
 	function fixLL_internal($LL, $ll, $prefix = '') {
-		while (list($key, $val) = each($LL)) {
+		foreach ($LL as $key => $val) {
 			if (is_array($val))	{
 				$this->fixLL_internal($val, $ll, $prefix . $key);
 			} else {
@@ -1178,10 +1178,10 @@ class tx_comments_pi1 extends AbstractPlugin {
 	 * @return	string		HTML
 	 */
 	function substituteMarkersAndSubparts($template, array $markers, array $subparts) {
-		$content = $this->cObj->substituteMarkerArray($template, $markers);
+		$content = $this->templateService->substituteMarkerArray($template, $markers);
 		if (count($subparts) > 0) {
 			foreach ($subparts as $name => $subpart) {
-				$content = $this->cObj->substituteSubpart($content, $name, $subpart);
+				$content = $this->templateService->substituteSubpart($content, $name, $subpart);
 			}
 		}
 		return $content;
