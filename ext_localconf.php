@@ -9,7 +9,7 @@ TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPItoST43('comments', 'pi1/
 $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processCmdmapClass']['comments'] = 'tx_comments_tcemain';
 
 // Page module hook
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info']['comments_pi1'][] = 'EXT:comments/class.tx_comments_cms_layout.php:tx_comments_cms_layout->getExtensionSummary';
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info']['comments_pi1'][] = 'tx_comments_cms_layout->getExtensionSummary';
 
 // eID
 $GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include']['comments'] = 'EXT:comments/class.tx_comments_eID.php';
