@@ -22,6 +22,8 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+use TYPO3\CMS\Backend\Utility\BackendUtility;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
@@ -41,11 +43,11 @@ class tx_comments_tcemain {
 	 * @param	string		$table	Table name.
 	 * @param	int		$id	Record uid
 	 * @param	mixed		$value	Unused
-	 * @param	t3lib_TCEmain		$pObj	Reference to parent object
+	 * @param	DataHandler		$pObj	Reference to parent object
 	 * @return	void		Nothing
 	 */
 	function processCmdmap_postProcess($command, $table, $id, $value, $pObj) {
-		/* @var $pObj t3lib_TCEmain */
+		/* @var $pObj DataHandler */
 		if ($command == 'delete' && $table != 'tx_comments_comments') {
 			$cmdmap = array();
 			$external_ref = $table . '_' . $id;
@@ -53,20 +55,20 @@ class tx_comments_tcemain {
 			//		and there is no need to flood cache with such queries!
 			$rows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('/*! SQL_NO_CACHE */ uid', 'tx_comments_comments',
 						'external_ref=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($external_ref, 'tx_comments_comments') .
-						t3lib_BEfunc::deleteClause('tx_comments_comments'));
+						BackendUtility::deleteClause('tx_comments_comments'));
 			foreach ($rows as $row) {
 				$cmdmap['tx_comments_comments'][$row['uid']]['delete'] = true;
 			}
 			$rows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('/*! SQL_NO_CACHE */ uid', 'tx_comments_urllog',
 						'external_ref=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($external_ref, 'tx_comments_urllog') .
-						t3lib_BEfunc::deleteClause('tx_comments_urllog'));
+						BackendUtility::deleteClause('tx_comments_urllog'));
 			foreach ($rows as $row) {
 				$cmdmap['tx_comments_urllog'][$row['uid']]['delete'] = true;
 			}
 			if (count($cmdmap)) {
 				$tce = GeneralUtility::makeInstance('t3lib_TCEmain');
-				/* @var $tce t3lib_TCEmain */
-				$tce->start(false, $cmdmap, $pObj->BE_USER);
+				/* @var $tce DataHandler */
+				$tce->start([], $cmdmap, $pObj->BE_USER);
 				$GLOBALS['TYPO3_DB']->sql_query('START TRANSACTION');
 				$tce->process_cmdmap();
 				if (count($tce->errorLog)) {
