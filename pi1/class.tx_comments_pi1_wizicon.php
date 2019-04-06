@@ -46,7 +46,7 @@ class tx_comments_pi1_wizicon {
 		$LL = $this->includeLocalLang();
 
 		$wizardItems['plugins_tx_comments_pi1'] = [
-			'icon'=> ExtensionManagementUtility::extRelPath('comments').'pi1/ce_wiz.gif',
+			'icon'=> 'EXT:comments/pi1/ce_wiz.gif',
 			'title'=>$LANG->getLLL('tt_content.list_type_pi1', $LL),
 			'description'=>$LANG->getLLL('pi1_plus_wiz_description',$LL),
 			'params'=>'&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=comments_pi1'
